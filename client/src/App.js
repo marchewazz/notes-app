@@ -1,11 +1,15 @@
 import React from 'react'
+import LoginForm from './components/LoginForm'
+import RegisterForm from './components/RegisterForm'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function App() {
 
   return (
-    <div>
-      react
-    </div>
+    <>
+      <LoginForm/>
+      <RegisterForm/>
+    </>
   )
 }
 
