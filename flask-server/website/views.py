@@ -1,3 +1,4 @@
+from flask.blueprints import Blueprint
 import psycopg2
 
 #functions

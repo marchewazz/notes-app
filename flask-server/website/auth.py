@@ -1,5 +1,5 @@
 from datetime import date
-from flask import request, flash, render_template
+from flask import request, render_template
 from flask.blueprints import Blueprint
 from werkzeug.security import generate_password_hash
 from .views import connectWithDB
@@ -8,9 +8,6 @@ from .views import connectWithDB
 auth = Blueprint("auth", __name__)
 
 #routing
-@auth.route("/", methods = ['GET', 'POST'])
-def index():
-    return render_template ('index.html')
 
 @auth.route("/signup", methods = ['GET', 'POST'])
 def signup():
