@@ -3,7 +3,7 @@ import React from "react";
 function RegisterForm () {
 
     return (
-        <div class="flex flex-wrap justify-center">
+        <div className="flex flex-wrap justify-center">
           <form method="POST">
             <input className="bg-blue-900 placeholder-white" 
             type="email" 

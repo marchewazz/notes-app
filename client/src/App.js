@@ -2,6 +2,8 @@ import React from 'react'
 import LoginForm from './components/LoginForm'
 import RegisterForm from './components/RegisterForm'
 import NavBar from './components/NavBar';
+import AddTaskForm from './components/AddTaskForm';
+import TasksContainer from './components/TasksContatiner';
 import { BrowserRouter, BrowserRouter as Route, Switch, Redirect } from 'react-router-dom';
 
 function App() {
@@ -10,20 +12,27 @@ function App() {
     <>
       <BrowserRouter>
 
-        <NavBar />
+        
 
         <Switch>
           
           <Route exact path='/'>
-            <Redirect to="/signup" />
+            <Redirect to='/signup' />
           </Route>
 
-          <Route exact path="/login">
+          <Route exact path='/login'>
+            <NavBar />
             <LoginForm />
           </Route>
 
-          <Route exact path="/signup">
+          <Route exact path='/signup'>
+            <NavBar />
             <RegisterForm />
+          </Route>
+
+          <Route exact path='/home'>
+            <TasksContainer />
+            <AddTaskForm />
           </Route>
 
         </Switch>

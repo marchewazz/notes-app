@@ -3,7 +3,7 @@ import React from "react";
 function LoginForm(){
     
     return (
-      <div class="place-self-center">
+      <div className="place-self-center">
           <form method="POST">
             <input className="bg-blue-900 placeholder-white" 
             type="email" 
