@@ -1,13 +1,13 @@
 import React from "react";
 
 function AddTaskForm(){
-    
+
     function showDate(){
         console.log('function');
     }
 
     return (
-        <div className="place-self-center">
+        <div>
           <form method="POST">
             <textarea 
             name="taskTitle" 
@@ -19,47 +19,53 @@ function AddTaskForm(){
             placeholder="Task description"
             required
             />
-            <input 
-            className="border-yellow-200 border-8 text-yellow-200"
-            type="radio"
-            name="color"
-            value="yellow-200"
-            />
-            <input 
-            className="border-pink-400 border-8 text-pink-400"
-            type="radio"
-            name="color"
-            value="pink-400"
-            />
-            <input 
-            className="border-green-300 border-8 text-green-300"
-            type="radio"
-            name="color"
-            value="green-300"
-            />
+            <div>
+              Choose task card color
+              <input 
+              className="border-yellow-200 border-8 text-yellow-200"
+              type="radio"
+              name="color"
+              value="yellow-200"
+              checked
+              />
+              <input 
+              className="border-pink-400 border-8 text-pink-400"
+              type="radio"
+              name="color"
+              value="pink-400"
+              />
+              <input 
+              className="border-green-300 border-8 text-green-300"
+              type="radio"
+              name="color"
+              value="green-300"
+              />
+            </div>
             <input
             type="text"
             name="taskAttachment"
             placeholder="Task attachment"
             />
-            <span>
-                Notification?
-                <input 
-                type="checkbox" 
-                name="notificationBool"
-                onChange={showDate}
-                />
-            </span>
-            <span>
-                Delete when expired?
-                <input 
-                type="checkbox" 
-                name="deletingBool"
-                onChange={showDate}
-                />
-            </span>
+            <div>
+              <span>
+                  Notification?
+                  <input 
+                  type="checkbox" 
+                  name="notificationBool"
+                  onChange={showDate}
+                  />
+              </span>
+              <span>
+                  Delete when expired?
+                  <input 
+                  type="checkbox" 
+                  name="deletingBool"
+                  onChange={showDate}
+                  />
+              </span>
+            </div>
             <input 
-            type="date"
+            type="datetime-local"
             name="expiringDate"
             />
             <input 

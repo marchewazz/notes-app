@@ -31,9 +31,26 @@ def postTask():
         taskTitle = request.form.get('taskTitle')
         taskDescription = request.form.get('taskDescription')
         taskColor = request.form.get('color')
-        taskAttachment = request.form.get('taskAttachment')
-        notificationBool = request.form.get('notificationBool')
-        deletingBool = request.form.get('deletingBool')
-        expiringDate = request.form.get('expiringDate')
+        taskAttachment = request.form.get('taskAttachment') if request.form.get('taskAttachment') != "" else None
+        notificationBool = True if request.form.get('notificationBool') == "on" else False
+        deletingBool = True if request.form.get('deletingBool') == "on" else False
+        expiringDate = request.form.get('expiringDate') if request.form.get('expiringDate') != "" else None
+        conn = connectWithDB()
 
-        return taskTitle
+        if isinstance(conn, psycopg2.extensions.connection):
+            cursor = conn.cursor()
+
+            try:
+                cursor.execute("INSERT INTO tasks(task_title, task_description, task_color, task_attachment, task_notification, task_delete_after_date, task_date_expiring, user_related_to_task) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", 
+                    vars=(taskTitle, taskDescription, taskColor, taskAttachment, notificationBool, deletingBool, expiringDate, 54))
+            except Exception as error:
+                    conn.close()
+                    print(error)
+
+                    return 'error'
+            else:
+                conn.commit()
+                conn.close
+                return 'task added'
+        else:
+            return 'We couldnt connect to db'
