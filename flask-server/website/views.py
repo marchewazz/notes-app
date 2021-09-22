@@ -54,3 +54,7 @@ def postTask():
                 return 'task added'
         else:
             return 'We couldnt connect to db'
+
+@views.route("/tasks/<int:id>")
+def getTasks(id):
+    return {"yes" : "no"}, 200

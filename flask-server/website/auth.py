@@ -9,40 +9,33 @@ auth = Blueprint("auth", __name__)
 
 #routing
 
-@auth.route("/signup", methods = ['GET', 'POST'])
-def signup():
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-        repeatedPassword = request.form.get('repeatedPassword')
+@auth.route("/users/signup/<email>/<password>/<repeatedpassword>", methods = ['GET', 'POST'])
+def signup(email, password, repeatedpassword):
 
-        if password != repeatedPassword:
-            return 'Passwords don\'t match'
+    if password != repeatedpassword:
+        return {"message": 'Passwords don\'t match'}
+    else:
+        try:
+            conn = connectWithDB()
+        except Exception:
+            return {"message": 'cannot connect'}
         else:
-            try:
-                conn = connectWithDB()
-            except Exception:
-                return 'cannot connect'
+            cursor = conn.cursor()
+
+            cursor.execute("SELECT * FROM users WHERE user_email = (%s)", vars=(email,))
+            data = cursor.fetchall()
+
+            if data:
+                conn.close()
+                return {"message": 'We got your email in data base plz login'}
             else:
-                cursor = conn.cursor()
-
-                cursor.execute("SELECT * FROM users WHERE user_email = (%s)", vars=(email,))
-                data = cursor.fetchall()
-
-                if data:
+                try:
+                    cursor.execute("INSERT INTO users(user_email, user_password, user_create_data) VALUES (%s, %s, %s)", (email, generate_password_hash(password, method='sha256'), date.today()))
+                except Exception as error:
                     conn.close()
-                    return 'We got your email in data base plz login'
+                    print(error)
+                    return {"message": 'error'}
                 else:
-                    try:
-                        cursor.execute("INSERT INTO users(user_email, user_password, user_create_data) VALUES (%s, %s, %s)", (email, generate_password_hash(password, method='sha256'), date.today()))
-                    except Exception as error:
-                        conn.close()
-                        print(error)
-                        return 'error'
-                    else:
-                        conn.commit()
-                        conn.close()
-                        return 'User added!'
-            
-
-    return render_template("index.html")
+                    conn.commit()
+                    conn.close()
+                    return {"message": 'User added!'}

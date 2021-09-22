@@ -1,9 +1,12 @@
 from flask import Flask, render_template
+import flask_cors
 
 def create_app():
+    cors = flask_cors.CORS()
+    
     app = Flask(__name__, static_folder="../../client/public", template_folder="../../client/public")
     app.config['SECRET_KEY'] = "kindasecret"    
-    
+    cors.init_app(app)
     from .auth import auth
     from .views import views
 
