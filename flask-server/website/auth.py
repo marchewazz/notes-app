@@ -13,12 +13,12 @@ auth = Blueprint("auth", __name__)
 def signup(email, password, repeatedpassword):
 
     if password != repeatedpassword:
-        return {"message": 'Passwords don\'t match'}
+        return {"message": 'Passwords don\'t match', "status": 403}
     else:
         try:
             conn = connectWithDB()
         except Exception:
-            return {"message": 'cannot connect'}
+            return {"message": 'cannot connect', "status": 504}
         else:
             cursor = conn.cursor()
 
@@ -27,15 +27,15 @@ def signup(email, password, repeatedpassword):
 
             if data:
                 conn.close()
-                return {"message": 'We got your email in data base plz login'}
+                return {"message": 'We got your email in data base plz login', "status": 409}
             else:
                 try:
                     cursor.execute("INSERT INTO users(user_email, user_password, user_create_data) VALUES (%s, %s, %s)", (email, generate_password_hash(password, method='sha256'), date.today()))
                 except Exception as error:
                     conn.close()
                     print(error)
-                    return {"message": 'error'}
+                    return {"message": 'error', "status": 504}
                 else:
                     conn.commit()
                     conn.close()
-                    return {"message": 'User added!'}
+                    return {"message": 'User added!', "status": 201}

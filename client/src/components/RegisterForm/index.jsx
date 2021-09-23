@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 
 function RegisterForm () {
 
@@ -15,7 +15,14 @@ function RegisterForm () {
 
       fetch(`users/signup/${email}/${pass1}/${pass2}`)
         .then(res => res.json())
-        .then(res => console.log(res))
+        .then(res => {
+          console.log(res.status);
+          if(res.status === 201){
+            return alert('Your account is created!')
+          } else {
+            return alert(res.message)
+          }
+        })
     }
 
     return (
