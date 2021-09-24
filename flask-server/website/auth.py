@@ -1,41 +1,44 @@
 from datetime import date
-from flask import request, render_template
 from flask.blueprints import Blueprint
-from werkzeug.security import generate_password_hash
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import check_password_hash, generate_password_hash
 from .views import connectWithDB
+from .models import User
+import flask_praetorian
 
-#app initializing
+db = SQLAlchemy()
+#auth initializing
 auth = Blueprint("auth", __name__)
+
+guard = flask_praetorian.Praetorian()
 
 #routing
 
 @auth.route("/users/signup/<email>/<password>/<repeatedpassword>", methods = ['GET', 'POST'])
 def signup(email, password, repeatedpassword):
-
+    email_exist = User.query.filter_by(user_email=email).first()
+   
     if password != repeatedpassword:
         return {"message": 'Passwords don\'t match', "status": 403}
     else:
-        try:
-            conn = connectWithDB()
-        except Exception:
-            return {"message": 'cannot connect', "status": 504}
+        if email_exist:
+            return {"message": 'We got your email in data base plz login', "status": 409}
         else:
-            cursor = conn.cursor()
+            new_user = User(user_email=email, user_password=generate_password_hash(password, method='sha256'), user_create_data=date.today())
 
-            cursor.execute("SELECT * FROM users WHERE user_email = (%s)", vars=(email,))
-            data = cursor.fetchall()
+            db.session.add(new_user)
+            db.session.commit()
+            return {"message": 'User added!', "status": 201}
 
-            if data:
-                conn.close()
-                return {"message": 'We got your email in data base plz login', "status": 409}
-            else:
-                try:
-                    cursor.execute("INSERT INTO users(user_email, user_password, user_create_data) VALUES (%s, %s, %s)", (email, generate_password_hash(password, method='sha256'), date.today()))
-                except Exception as error:
-                    conn.close()
-                    print(error)
-                    return {"message": 'error', "status": 504}
-                else:
-                    conn.commit()
-                    conn.close()
-                    return {"message": 'User added!', "status": 201}
+@auth.route("/users/login/<email>/<password>")
+def login(email, password):
+
+    user = User.query.filter_by(user_email=email).first()
+
+    if not user:
+        return {"message": "We dont have that email in db", "status": "yes"}
+    else:
+        if check_password_hash(user.user_password, password):
+            return {"message": "Logged", "status": "yes"}
+        else:
+            return {"message": "Password not good", "status": "yes"}
