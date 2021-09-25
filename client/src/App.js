@@ -1,10 +1,10 @@
 import React from 'react';
-import LoginForm from './components/LoginForm';
-import RegisterForm from './components/RegisterForm';
+
+import LoginPage from './components/LoginPage';
+import RegisterPage from './components/RegisterPage';
+import TaskPage from './components/TaskPage';
 import NavBar from './components/NavBar';
-import AddTaskForm from './components/AddTaskForm';
-import TasksContainer from './components/TasksContatiner';
-import LogoutBar from './components/LogoutBar';
+
 import { BrowserRouter, BrowserRouter as Route, Switch, Redirect } from 'react-router-dom';
 
 function App() {
@@ -18,21 +18,15 @@ function App() {
 
           <Redirect exact from="/" to="/signup" />
           <Route exact path='/login'>
-            <LoginForm />
+            <LoginPage />
           </Route>
 
           <Route exact path='/signup'>
-            <RegisterForm />
+            <RegisterPage />
           </Route>
 
-          <Route exact path='/home'>
-            <div className="grid grid-cols-2 grid-rows-2">
-              <LogoutBar className="col-span-2"/>
-              <TasksContainer className="row-start-2"/>
-              <div className="col-start-2">
-                <AddTaskForm />
-              </div>
-            </div>
+          <Route exact path='/tasks'>
+            <TaskPage />
           </Route>
 
         </Switch>
