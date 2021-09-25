@@ -10,6 +10,9 @@ def create_app():
     app = Flask(__name__, static_folder="../../client/public", template_folder="../../client/public")
     app.config['SECRET_KEY'] = "kindasecret"    
     app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:123@localhost:5432/taskApp"
+    app.config['JWT_ACCESS_LIFESPAN'] = {'hours': 24}
+    app.config['JWT_REFRESH_LIFESPAN'] = {'days': 30}
+    
     db.init_app(app)
 
     cors.init_app(app)

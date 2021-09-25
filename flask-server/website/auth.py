@@ -33,11 +33,12 @@ def signup(email, password, repeatedpassword):
 def login(email, password):
 
     user = User.query.filter_by(user_email=email).first()
-
+    
     if not user:
         return {"message": "We dont have that email in db", "status": "yes"}
     else:
         if check_password_hash(user.user_password, password):
-            return {"message": "Logged", "status": "yes"}
+            ret = {'access_token': 'token'}
+            return ret
         else:
-            return {"message": "Password not good", "status": "yes"}
+            return {'message': 'not logged'}

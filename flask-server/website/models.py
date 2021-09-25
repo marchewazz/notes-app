@@ -15,8 +15,8 @@ class User(Base):
     
 
     @classmethod
-    def lookup(cls, username):
-        return cls.query.filter_by(username=username).one_or_none()
+    def lookup(cls, email):
+        return cls.query.filter_by(user_email=email).one_or_none()
 
     @classmethod
     def identify(cls):

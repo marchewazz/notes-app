@@ -1,9 +1,7 @@
 import React from "react";
-import { Redirect, useHistory } from "react-router-dom";
 
 function RegisterForm () {
 
-    const history = useHistory();
 
     function userRegister(event){
       event.preventDefault();
