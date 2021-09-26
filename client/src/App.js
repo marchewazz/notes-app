@@ -2,7 +2,7 @@ import React from 'react';
 
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
-import TaskPage from './components/TaskPage';
+import TasksPage from './components/TasksPage';
 import NavBar from './components/NavBar';
 
 import { BrowserRouter, BrowserRouter as Route, Switch, Redirect } from 'react-router-dom';
@@ -26,7 +26,7 @@ function App() {
           </Route>
 
           <Route exact path='/tasks'>
-            <TaskPage />
+            <TasksPage />
           </Route>
 
         </Switch>

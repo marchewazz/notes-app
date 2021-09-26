@@ -9,7 +9,8 @@ function AddTaskForm(){
     return (
         <div>
           <form method="POST">
-            <textarea 
+            <input
+            type="text"
             name="taskTitle" 
             placeholder="Task title"
             required

@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.sql.schema import Table
 
-engine = create_engine("postgresql://postgres:123@localhost:5432/taskApp")
+engine = create_engine("postgresql://postgres:123@localhost:5432/taskApp", max_overflow=20)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
@@ -39,3 +39,19 @@ class User(Base):
 
     def is_valid(self):
         return self.is_active
+
+class Task(Base):
+    __table__ = Table('tasks', Base.metadata, autoload=True, autoload_with=engine)
+    
+
+    @classmethod
+    def lookup(cls, id):
+        return cls.query.filter_by(task_id=id).one_or_none()
+
+    @classmethod
+    def identify(cls):
+        return cls.query.get('task_id')
+
+    @property
+    def identity(self):
+        return self.task_id
