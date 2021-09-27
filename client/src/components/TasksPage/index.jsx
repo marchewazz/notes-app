@@ -1,7 +1,7 @@
 import React from 'react';
 
 import AddTaskForm from '../AddTaskForm';
-import TasksContainer from '../TasksContatiner';
+import TasksContainer from '../TasksContainer';
 import LogoutBar from '../LogoutBar';
 
 function TasksPage(){

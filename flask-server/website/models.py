@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.sql.schema import Table
 
-engine = create_engine("postgresql://postgres:123@localhost:5432/taskApp", max_overflow=20)
+engine = create_engine("postgresql://postgres:123@localhost:5432/taskApp", max_overflow=100, pool_size = 20)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
