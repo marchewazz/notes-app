@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.orm import column_property, scoped_session, sessionmaker
 from sqlalchemy.sql.schema import Table
 
 engine = create_engine("postgresql://postgres:123@localhost:5432/taskApp", max_overflow=100, pool_size = 20)

@@ -1,11 +1,10 @@
 from flask import Flask, render_template
-import flask_cors
+from flask_cors import CORS
 from .auth import guard, db
 from flask_sqlalchemy import SQLAlchemy
 from .models import User
 
 def create_app():
-    cors = flask_cors.CORS()
     
     app = Flask(__name__, static_folder="../../client/public", template_folder="../../client/public")
     app.config['SECRET_KEY'] = "kindasecret"    
@@ -15,7 +14,8 @@ def create_app():
     
     db.init_app(app)
 
-    cors.init_app(app)
+    CORS(app)
+
     guard.init_app(app, User)
 
     from .auth import auth

@@ -13,7 +13,7 @@ guard = flask_praetorian.Praetorian()
 
 #routing
 
-@auth.route("/users/signup/<email>/<password>/<repeatedpassword>", methods = ['GET', 'POST'])
+@auth.route("/users/signup/<email>/<password>/<repeatedpassword>", methods=['GET', 'POST'])
 def signup(email, password, repeatedpassword):
     email_exist = User.query.filter_by(user_email=email).first()
    

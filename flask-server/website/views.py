@@ -1,8 +1,7 @@
-import json
-from json.encoder import JSONEncoder
 from flask.blueprints import Blueprint
-from flask import jsonify
+from sqlalchemy.exc import SQLAlchemyError
 from .models import Task
+from .auth import db
 
 views = Blueprint("views", __name__)
 
@@ -21,7 +20,17 @@ def getTasks(userID):
             'task_delete_after_date': x.task_delete_after_date, 
             'task_date_expiring': x.task_date_expiring
             })
+
     return {"tasks": tasks}
+@views.route("tasks/add/<taskTitle>/<taskDesc>/<taskColor>/<taskAtt>/<taskNot>/<taskDelete>/<taskDateExp>/<userID>", methods=['GET', 'POST'])
+def addTask(taskTitle, taskDesc, taskColor, taskAtt, taskNot, taskDelete, taskDateExp, userID):
 
-
+    taskToAdd = Task(task_title=taskTitle, task_description=taskDesc, task_color=taskColor, task_attachment=taskAtt, task_notification=bool(taskNot), task_delete_after_date=bool(taskDelete), task_date_expiring=taskDateExp, user_related_to_task=userID)
+    try:
+        db.session.add(taskToAdd)
+        db.session.commit()
+    except SQLAlchemyError as e:
+        return {"message" : str(e)}
+    else:
+        return {"message" : "task added"}
 
