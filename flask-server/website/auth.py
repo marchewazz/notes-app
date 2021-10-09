@@ -3,13 +3,11 @@ from flask.blueprints import Blueprint
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
 from .models import User
-import flask_praetorian
+from flask_login import login_user, logout_user, login_required, current_user
 
 db = SQLAlchemy()
 #auth initializing
 auth = Blueprint("auth", __name__)
-
-guard = flask_praetorian.Praetorian()
 
 #routing
 
@@ -38,7 +36,7 @@ def login(email, password):
         return {"message": "We dont have that email in db", "status": "yes"}
     else:
         if check_password_hash(user.user_password, password):
-            ret = {'access_token': 'token'}
-            return ret
+            login_user(user, remember=True)
+            return {'message' : 'logged'}
         else:
             return {'message': 'not logged'}

@@ -1,20 +1,20 @@
 import React from "react";
+import { Redirect, useHistory } from "react-router";
 
 function LoginForm(){
-    
+    let history = useHistory()
     function userLogin(event){
       event.preventDefault();
       const data = new FormData(event.target);
 
       const email = data.get('email');
       const pass1 = data.get('password');
-
+    
       fetch(`users/login/${email}/${pass1}`)
       .then(res => res.json())  
       .then(res => {
-          console.log(res.status);
-          return alert(res.message)
-        })
+        return (res.message === 'logged') ? history.push('/tasks') : false
+      })
     }
     return (
       <div className="place-self-center">

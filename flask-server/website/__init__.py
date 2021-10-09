@@ -1,8 +1,7 @@
 from flask import Flask, render_template
 from flask_cors import CORS
-from .auth import guard, db
-from flask_sqlalchemy import SQLAlchemy
-from .models import User
+from .auth import db
+from flask_login import LoginManager
 
 def create_app():
     
@@ -15,8 +14,9 @@ def create_app():
     db.init_app(app)
 
     CORS(app)
-
-    guard.init_app(app, User)
+    login_manager = LoginManager()
+    login_manager.login_view = "auth.login"
+    login_manager.init_app(app)
 
     from .auth import auth
     from .views import views
