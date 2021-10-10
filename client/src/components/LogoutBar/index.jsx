@@ -1,9 +1,9 @@
 import React from "react";
 
-function LogoutBar (){
+function LogoutBar(props){
     return(
         <nav className="bg-blue-900 h-1/5 w-screen text-white">
-            <span>USER:EMAIL</span> 
+            <span>LOGGED AS : {props.userEmail}</span> 
             <button>LOGOUT</button>        
         </nav>   
     )

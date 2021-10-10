@@ -37,6 +37,6 @@ def login(email, password):
     else:
         if check_password_hash(user.user_password, password):
             login_user(user, remember=True)
-            return {'message' : 'logged'}
+            return {'message' : 'logged', 'user_id': user.user_id, 'user_email': user.user_email}
         else:
             return {'message': 'not logged'}

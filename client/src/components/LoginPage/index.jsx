@@ -1,9 +1,11 @@
 import React from "react";
 import LoginForm from '../LoginForm';
+import NavBar from '../NavBar';
 
-function LoginPage(){
+function LoginPage(props){
     return(
-        <>
+        <>  
+            <NavBar />
             <LoginForm />
         </>
     )

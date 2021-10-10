@@ -3,34 +3,22 @@ import React from 'react';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
 import TasksPage from './components/TasksPage';
-import NavBar from './components/NavBar';
 
-import { BrowserRouter, BrowserRouter as Route, Switch, Redirect } from 'react-router-dom';
+import appHistory from './services/history'
+
+import { Router, Switch, Route } from 'react-router-dom';
 
 function App() {
 
   return (
     <>
-      <BrowserRouter>
-
-        <NavBar />
+      <Router history = {appHistory}>
         <Switch>
-
-          <Redirect exact from="/" to="/signup" />
-          <Route exact path='/login'>
-            <LoginPage />
-          </Route>
-
-          <Route exact path='/signup'>
-            <RegisterPage />
-          </Route>
-
-          <Route exact path='/tasks'>
-            <TasksPage />
-          </Route>
-
+          <Route exact path='/signup' component={RegisterPage} />
+          <Route exact path='/login' component={() => <LoginPage />} />
+          <Route exact path='/tasks' component={TasksPage} />
         </Switch>
-      </BrowserRouter>
+      </Router>
     </>
   )
 }

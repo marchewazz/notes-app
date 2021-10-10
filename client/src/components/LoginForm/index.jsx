@@ -1,8 +1,7 @@
 import React from "react";
-import { Redirect, useHistory } from "react-router";
+import history from "../../services/history";
 
 function LoginForm(){
-    let history = useHistory()
     function userLogin(event){
       event.preventDefault();
       const data = new FormData(event.target);
@@ -13,7 +12,7 @@ function LoginForm(){
       fetch(`users/login/${email}/${pass1}`)
       .then(res => res.json())  
       .then(res => {
-        return (res.message === 'logged') ? history.push('/tasks') : false
+        return (res.message === 'logged') ? history.push({ pathname: '/tasks', state: {userID: res.user_id, userEmail: res.user_email}}) : false
       })
     }
     return (
