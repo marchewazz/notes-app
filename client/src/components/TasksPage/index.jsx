@@ -20,7 +20,7 @@ function TasksPage(){
             </div>
   
             <div className="">
-              <AddTaskForm />
+              <AddTaskForm userID={location.userID}/>
             </div>
 
           </div>

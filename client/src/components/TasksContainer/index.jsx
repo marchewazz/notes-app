@@ -22,6 +22,7 @@ function TasksContainer(props){
         for (let i = 0; i < tasks.length; i++){
             components.push(
                 <TaskComponent 
+                taskID = {tasks[i].task_id}
                 taskTitle = {tasks[i].task_title} 
                 taskDesc = {tasks[i].task_description}
                 taskAttachment = {tasks[i].task_attachment}

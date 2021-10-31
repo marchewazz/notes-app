@@ -1,7 +1,16 @@
 import React from "react";
-import ModifyTaskComponent from "../ModifyTaskComponent";
 
 function TaskComponent(props){
+
+    function deleteTask(taskID){
+        const requestOptions = {
+            method: 'DELETE'
+        };
+
+        fetch(`/tasks/delete/${taskID}`, requestOptions)
+        .then(res => console.log(res.text()))
+    }
+
     return(
         <div className={`bg-${props.taskColor}`}>
             <p>{ props.taskTitle }</p>
@@ -9,7 +18,10 @@ function TaskComponent(props){
             <p>{ props.taskAttachment }</p>
             <p>{ props.taskDateExpiring }</p>
             <p>{ props.taskNotification.toString() }</p>
-            <ModifyTaskComponent />
+            <div className="flex justify-evenly">
+                <button onClick={() => deleteTask(props.taskID)}>delete</button>
+                <button>edit</button>
+            </div>
         </div>
     )
 }
